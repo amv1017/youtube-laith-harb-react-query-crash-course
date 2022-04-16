@@ -1,14 +1,19 @@
 import * as React from 'react'
+import { QueryClientProvider, QueryClient } from 'react-query'
+import Characters from './components/Characters'
 import './App.css'
-import Character from './components/Character'
+
+const queryClient = new QueryClient()
 
 export default () => {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <div className="App">
-        React Query Example
+        <div className="container">
+          <h1>Rick and Morty</h1>
+          <Characters />
+        </div>
       </div>
-      <Character />
-    </div>
+    </QueryClientProvider>
   )
 }

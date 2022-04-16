@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import ky from 'ky'
 
-export default () => {
-
-  const [characters, setCharacters] = useState([])
-
-  const fetchCharacters = async () => {
-    const response = await ky.get("https://rickandmortyapi.com/api/character").json()
-    setCharacters(response.results)
-  }
-
-  useEffect(() => {
-    fetchCharacters()
-  }, [])
-
+export default ({ character }) => {
   return (
-    <div>
-      {characters.map((c) => (
-        <div key={c.id}>{c.name}</div>
-      ))}
+    <div className="card">
+      <img src={character.image} alt="" />
+      <div className="text-container">
+        <h3>{character.name}</h3>
+        <p className="status">{character.status} - {character.species}</p>
+        <p className="title">Last seen on</p>
+        <p>{character.location.name}</p>
+      </div>
     </div>
   )
 }
