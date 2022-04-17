@@ -20,13 +20,15 @@ export default () => {
     return await ky.get(`https://rickandmortyapi.com/api/character?page=${queryKey[1]}`).json()
   }
 
-  const { data, status } = useQuery(["characters", page], fetchCharacters)
+  const { data, isPreviousData, isLoading, isError } = useQuery(["characters", page], fetchCharacters, {
+    keepPreviousData: true
+  })
 
-  if (status === 'loading') {
+  if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if (status === 'error') {
+  if (isError) {
     return <div>Error</div>
   }
 
@@ -37,7 +39,7 @@ export default () => {
       ))}
       <div>
         <button disabled={page === 1} onClick={() => setPage((old) => old - 1)}>Previous</button>
-        <button disabled={!data.info.next} onClick={() => setPage((old) => old + 1)}>Next</button>
+        <button disabled={isPreviousData && !data.info.next} onClick={() => setPage((old) => old + 1)}>Next</button>
       </div>
     </div>
   )
